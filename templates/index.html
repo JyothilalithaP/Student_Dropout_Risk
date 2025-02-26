@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dropout Risk Tracker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        header {
+            background-color: #007BFF; 
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .form-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #e9f5ff;
+            border: 1px solid #b0d6ff;
+            border-radius: 8px;
+        }
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        button.delete {
+            background-color: #FF5733;
+        }
+        button.delete:hover {
+            background-color: #cc4525;
+        }
+        p{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Dropout Risk Tracker</h1>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <form method="POST" action="/add">
+                <label for="name">Student Name:</label>
+                <input type="text" name="name" id="name" placeholder="Enter Student Name" required>
+                <label for="marks">Marks (%):</label>
+                <input type="number" name="marks" id="marks" placeholder="Enter Marks" min="0" max="100" required>
+                <label for="attendance">Attendance (%):</label>
+                <input type="number" name="attendance" id="attendance" placeholder="Enter Attendance" min="0" max="100" required>
+                <button type="submit">Add Student</button>
+            </form>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Marks (%)</th>
+                    <th>Attendance (%)</th>
+                    <th>Dropout Risk (%)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.marks }}</td>
+                    <td>{{ student.attendance }}</td>
+                    <td>{{ student.risk | round(2) }}</td>
+                    <td>
+                        <form method="POST" action="/delete/{{ loop.index0 }}">
+                            <button type="submit" class="delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p>Created by Jyothilalitha<br>Contact : jyothilalithap@gmail.com</p>
+</body>
+</html>
